@@ -1,36 +1,360 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Black Panther Option Chain</title>
-  <style>
-    body {
-      margin: 0;
-      background: #0b0f14;
-      color: white;
-      font-family: Arial, sans-serif;
-      text-align: center;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    .box {
-      margin-top: 100px;
-    }
+<title>Black Panther Option Chain</title>
 
-    h1 {
-      font-size: 32px;
-    }
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:Arial,sans-serif;
+}
 
-    p {
-      color: #aaa;
-    }
-  </style>
+body{
+  background:#080b10;
+  color:#fff;
+}
+
+.header{
+  padding:20px;
+  background:#10151d;
+  border-bottom:1px solid #252d38;
+}
+
+.logo{
+  font-size:25px;
+  font-weight:bold;
+}
+
+.sub{
+  color:#8993a0;
+  margin-top:6px;
+  font-size:13px;
+}
+
+.container{
+  max-width:1500px;
+  margin:auto;
+  padding:20px;
+}
+
+.controls{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-bottom:20px;
+}
+
+select,button{
+  background:#151b24;
+  color:white;
+  border:1px solid #343e4b;
+  padding:12px 16px;
+  border-radius:7px;
+  font-size:14px;
+}
+
+button{
+  cursor:pointer;
+}
+
+button:hover{
+  background:#202936;
+}
+
+.cards{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-bottom:20px;
+}
+
+.card{
+  background:#10151d;
+  border:1px solid #252d38;
+  border-radius:9px;
+  padding:15px 20px;
+  min-width:180px;
+}
+
+.label{
+  color:#8993a0;
+  font-size:12px;
+  margin-bottom:7px;
+}
+
+.value{
+  font-size:21px;
+  font-weight:bold;
+}
+
+.table-box{
+  overflow:auto;
+  border:1px solid #252d38;
+  border-radius:9px;
+}
+
+table{
+  width:100%;
+  min-width:1100px;
+  border-collapse:collapse;
+}
+
+th{
+  background:#151b24;
+  color:#b9c1cc;
+  padding:12px 7px;
+  font-size:11px;
+  border-bottom:1px solid #303946;
+}
+
+td{
+  padding:11px 7px;
+  text-align:center;
+  border-bottom:1px solid #202732;
+  font-size:12px;
+}
+
+.call{
+  background:rgba(40,130,80,.08);
+}
+
+.put{
+  background:rgba(170,60,60,.08);
+}
+
+.strike{
+  background:#202936;
+  font-weight:bold;
+  font-size:13px;
+}
+
+.atm{
+  outline:2px solid white;
+  outline-offset:-2px;
+}
+
+.green{
+  color:#48d982;
+}
+
+.red{
+  color:#ff6868;
+}
+
+.pcr{
+  margin-top:20px;
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+}
+
+.pcr-card{
+  background:#10151d;
+  border:1px solid #252d38;
+  border-radius:9px;
+  padding:18px;
+  min-width:220px;
+}
+
+.pcr-number{
+  font-size:30px;
+  font-weight:bold;
+  margin-top:5px;
+}
+
+.status{
+  margin-top:8px;
+  color:#aeb7c3;
+  font-size:13px;
+}
+
+.footer{
+  text-align:center;
+  color:#687381;
+  font-size:12px;
+  padding:25px;
+}
+</style>
 </head>
 
 <body>
 
-  <div class="box">
-    <h1>🐆 Black Panther Option Chain</h1>
-    <p>Website is working successfully.</p>
+<div class="header">
+  <div class="logo">🐆 Black Panther Option Chain</div>
+  <div class="sub">Option Chain • Open Interest • PCR Dashboard</div>
+</div>
+
+<div class="container">
+
+  <div class="controls">
+
+    <select id="index">
+      <option>NIFTY 50</option>
+      <option>BANK NIFTY</option>
+      <option>FINNIFTY</option>
+    </select>
+
+    <select>
+      <option>Nearest Expiry</option>
+      <option>Next Expiry</option>
+      <option>Monthly Expiry</option>
+    </select>
+
+    <button onclick="refreshData()">⟳ Refresh</button>
+
   </div>
+
+  <div class="cards">
+
+    <div class="card">
+      <div class="label">INDEX</div>
+      <div class="value" id="indexName">NIFTY 50</div>
+    </div>
+
+    <div class="card">
+      <div class="label">SPOT PRICE</div>
+      <div class="value">25,000</div>
+    </div>
+
+    <div class="card">
+      <div class="label">ATM STRIKE</div>
+      <div class="value">25,000</div>
+    </div>
+
+    <div class="card">
+      <div class="label">EXPIRY</div>
+      <div class="value">Nearest</div>
+    </div>
+
+  </div>
+
+  <div class="table-box">
+
+    <table>
+
+      <thead>
+
+        <tr>
+          <th colspan="5">CALLS</th>
+          <th>STRIKE</th>
+          <th colspan="5">PUTS</th>
+        </tr>
+
+        <tr>
+          <th>OI</th>
+          <th>CHG OI</th>
+          <th>VOLUME</th>
+          <th>IV</th>
+          <th>LTP</th>
+
+          <th>STRIKE</th>
+
+          <th>LTP</th>
+          <th>IV</th>
+          <th>VOLUME</th>
+          <th>CHG OI</th>
+          <th>OI</th>
+        </tr>
+
+      </thead>
+
+      <tbody id="chain"></tbody>
+
+    </table>
+
+  </div>
+
+  <div class="pcr">
+
+    <div class="pcr-card">
+      <div class="label">TOTAL CALL OI</div>
+      <div class="pcr-number">8.42 L</div>
+    </div>
+
+    <div class="pcr-card">
+      <div class="label">TOTAL PUT OI</div>
+      <div class="pcr-number">10.51 L</div>
+    </div>
+
+    <div class="pcr-card">
+      <div class="label">PUT CALL RATIO</div>
+      <div class="pcr-number">1.25</div>
+      <div class="status">Demo value — live data coming next</div>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="footer">
+  Black Panther Option Chain © 2026
+</div>
+
+
+<script>
+
+const strikes=[
+  24700,
+  24800,
+  24900,
+  25000,
+  25100,
+  25200,
+  25300
+];
+
+const chain=document.getElementById("chain");
+
+strikes.forEach((strike,i)=>{
+
+  const row=document.createElement("tr");
+
+  if(strike===25000){
+    row.classList.add("atm");
+  }
+
+  row.innerHTML=`
+
+    <td class="call">${(120000+i*15000).toLocaleString()}</td>
+    <td class="call green">+${(8500+i*1200).toLocaleString()}</td>
+    <td class="call">${(35000+i*4200).toLocaleString()}</td>
+    <td class="call">14.2</td>
+    <td class="call">${(250-i*10).toFixed(2)}</td>
+
+    <td class="strike">${strike.toLocaleString()}</td>
+
+    <td class="put">${(210+i*8).toFixed(2)}</td>
+    <td class="put">13.9</td>
+    <td class="put">${(42000+i*3800).toLocaleString()}</td>
+    <td class="put red">-${(6200+i*800).toLocaleString()}</td>
+    <td class="put">${(150000+i*17000).toLocaleString()}</td>
+
+  `;
+
+  chain.appendChild(row);
+
+});
+
+
+document.getElementById("index").addEventListener("change",function(){
+
+  document.getElementById("indexName").innerText=this.value;
+
+});
+
+
+function refreshData(){
+
+  alert("Live market data will be connected in the next step.");
+
+}
+
+</script>
 
 </body>
 </html>
