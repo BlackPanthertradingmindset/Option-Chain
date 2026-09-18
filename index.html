@@ -1,1 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Black Panther Option Chain</title>
 
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #0b0f14;
+      color: #ffffff;
+    }
+
+    header {
+      padding: 20px;
+      background: #111720;
+      border-bottom: 1px solid #29313d;
+    }
+
+    header h1 {
+      font-size: 25px;
+    }
+
+    header p {
+      margin-top: 6px;
+      color: #9da7b3;
+      font-size: 14px;
+    }
+
+    .container {
+      padding: 20px;
+      max-width: 1400px;
+      margin: auto;
+    }
+
+    .controls {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    select {
+      background: #171e27;
+      color: white;
+      border: 1px solid #394351;
+      padding: 12px 15px;
+      border-radius: 8px;
+      font-size: 15px;
+    }
+
+    .market-box {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    .card {
+      background: #111720;
+      border: 1px solid #29313d;
+      border-radius: 10px;
+      padding: 16px 20px;
+      min-width: 180px;
+    }
+
+    .card-title {
+      color: #9da7b3;
+      font-size: 13px;
+      margin-bottom: 7px;
+    }
+
+    .card-value {
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    .table-wrapper {
+      overflow-x: auto;
+      background: #111720;
